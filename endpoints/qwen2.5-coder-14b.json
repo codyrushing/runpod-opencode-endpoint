@@ -1,0 +1,42 @@
+{
+  "name": "qwen2.5-coder-14b",
+  "template": {
+    "imageName": "${REGISTRY}/runpod-opencode-qwen2.5-coder-14b:v1",
+    "containerDiskInGb": 100,
+    "env": {
+      "MODEL_NAME": "Qwen/Qwen2.5-Coder-14B-Instruct",
+      "MAX_MODEL_LEN": "32768",
+      "GPU_MEMORY_UTILIZATION": "0.95",
+      "TRUST_REMOTE_CODE": "true",
+      "DTYPE": "bfloat16",
+      "ENABLE_AUTO_TOOL_CHOICE": "true",
+      "TOOL_CALL_PARSER": "hermes",
+      "MAX_CONCURRENCY": "4"
+    }
+  },
+  "build": {
+    "baseImage": "runpod/worker-v1-vllm:v2.18.1",
+    "model": "Qwen/Qwen2.5-Coder-14B-Instruct"
+  },
+  "endpoint": {
+    "gpuTypeIds": [
+      "NVIDIA L40S",
+      "NVIDIA L40",
+      "NVIDIA A100 80GB PCIe",
+      "NVIDIA A100-SXM4-80GB"
+    ],
+    "gpuCount": 1,
+    "workersMin": 0,
+    "workersMax": 1,
+    "idleTimeout": 5,
+    "scalerType": "QUEUE_DELAY",
+    "scalerValue": 4,
+    "flashboot": true,
+    "executionTimeoutMs": 180000
+  },
+  "opencode": {
+    "displayName": "Qwen2.5 Coder 14B (RunPod)",
+    "contextLimit": 32768,
+    "maxOutputTokens": 8192
+  }
+}
